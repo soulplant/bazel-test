@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package foo.v1;
+
+option go_package = "go.sajari.com/bazeltest/foo/cmd/foo/v1;pb";
+
+message Hello {
+    string name = 1;
+}

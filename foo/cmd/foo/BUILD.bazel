@@ -1,14 +1,32 @@
+load("@io_bazel_rules_go//proto:def.bzl", "go_proto_library")
 load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+load("@rules_proto//proto:defs.bzl", "proto_library")
+
+proto_library(
+    name = "model_pb",
+    srcs = [
+        "model.proto",
+    ],
+    visibility = ["//visibility:public"],
+)
 
 go_library(
     name = "foo_lib",
     srcs = ["main.go"],
     importpath = "go.sajari.com/bazeltest/foo/cmd/foo",
     visibility = ["//visibility:private"],
+    deps = [":pb_go_proto"],
 )
 
 go_binary(
     name = "foo",
     embed = [":foo_lib"],
+    visibility = ["//visibility:public"],
+)
+
+go_proto_library(
+    name = "pb_go_proto",
+    importpath = "go.sajari.com/bazeltest/foo/cmd/foo/v1",
+    proto = ":model_pb",
     visibility = ["//visibility:public"],
 )
